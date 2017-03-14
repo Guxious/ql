@@ -1,0 +1,9 @@
+1.
+mysql> use mysql;
+ERROR 1820 (HY000): You must SET PASSWORD before executing this statement
+直接运行SET PASSWORD = PASSWORD('123456');修改密码
+
+2.
+[root@moondb ~]# mysql  -uroot -p123456
+ERROR 2049 (HY000): Connection using old (pre-4.1.1) authentication protocol refused (client option 'secure_auth' enabled)
+直接运行mysql  -uroot -p123456  --skip-secure-auth登录

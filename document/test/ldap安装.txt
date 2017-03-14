@@ -1,0 +1,32 @@
+1.参考链接： http://www.centoscn.com/image-text/config/2013/0819/1367.html
+             http://www.linuxidc.com/Linux/2014-07/104448p2.htm
+
+2. 安装步骤
+yum install openldap-* -y
+关闭防火墙hkconfig --level 35 iptables off  (永久关闭防火墙)
+cd /etc/openldap/
+cp /usr/share/openldap-servers/slapd.conf.obsolete /etc/openldap/slapd.conf
+slappasswd
+vi /etc/openldap/slapd.conf
+拷贝DB_CONFIG文件到指定目录
+# cp /usr/share/openldap-servers/DB_CONFIG.example  /var/lib/ldap/DB_CONFIG
+删除默认/etc/openldap/slapd.d下面的所有内容，否则后面在使用ldapadd的时候会报错：
+# rm -rf /etc/openldap/slapd.d/*
+这一步很重要，如果修改了配置，需要删除 rm -rf /etc/openldap/slapd.d/*，重新加载
+service slapd restart
+slaptest  -f /etc/openldap/slapd.conf -F /etc/openldap/slapd.d
+
+# chown -R ldap:ldap /var/lib/ldap
+# chown -R ldap:ldap /etc/openldap/
+
+测试并生成配置文件：
+slaptest  -f /etc/openldap/slapd.conf -F /etc/openldap/slapd.d
+返回config file testing succeeded,则配置成功。
+
+赋予生成的配置文件予权限并重启：
+# chown -R ldap:ldap /etc/openldap/slapd.d
+# service slapd restart
+
+ldapadd -x -D 'cn=Manager,dc=storm,dc=com' -w secret -f root.ldif
+ldapsearch -x -b "dc=dlw,dc=com"  
+ldapdelete -x -D "cn=root,dc=dlw,dc=com" -w secret "dc=dlw,dc=com"

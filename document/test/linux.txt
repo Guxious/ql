@@ -1,0 +1,26 @@
+简单添加主机域名vi /etc/hosts
+192.168.1.151   huqixin.docker.private.registry
+
+yum源
+/etc/yum.repo.d/QLinters.repo
+[qianlong]
+name=qianlong publish repo  ##名称描述
+baseurl=http://192.168.4.169:8888/snapshot-rpm/  ##yum源目录，源地址
+enabled=1    ##是否启用该yum源，0为禁用
+gpgcheck=0   ##检查GPG-KEY，0为不检查，1为检查
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL ##gpgcheck=0时无需配置
+
+# yum clean all    --清除所有包
+# yum repolist      --查找有几个仓库
+
+sed查找某个字符串的行数
+sed -n '/***/='
+
+
+nl打印行号
+tac反向显示
+head -n 10 输出前10行
+chattr
+lsattr
+dump
+restore

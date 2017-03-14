@@ -1,0 +1,41 @@
+git clean -df 删除新建的文件
+
+
+git merge(分支f_20151211_installment合并到develop)
+git clone git@192.168.1.206:tkj_ui_cs
+git branch -a
+git branch
+git checkout develop
+git merge f_20151211_installment
+git add .
+git commit -m "xxx"
+git push origin develop:develop
+
+
+git回退develop版本95e161bd24847321b82b44c5ccdd64e0de0d3777
+git clone git@192.168.1.206:root/tkj_finance_server.git
+git branch -a
+git branch -r
+git checkout develop
+git reset --hard 95e161bd24847321b82b44c5ccdd64e0de0d3777
+git add .
+git commit -m "回退版本"
+git push -f origin develop:develop
+
+
+jenkins:
+#!/bin/bash
+
+workpath=${PWD}
+
+cd ..
+if [ -d "CI" ];then
+   cd CI
+   git reset --hard HEAD
+   git pull origin master
+else
+   git clone git@192.168.1.206:root/CI.git
+fi
+
+cd ${workpath}
+../CI/scripts/gen_binary_moniter.sh -r check-dialout -b master

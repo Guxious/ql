@@ -1,0 +1,18 @@
+http://blog.itechol.com/space-33-do-blog-id-6188.html
+7.ext4无损调节
+ 用resize2fs调整/home文件系统的大小，用fdisk调整分区的大小
+ 1.umount /dev/xvdb1
+ 2.fdisk /dev/xvdb
+   删除然来分区，重新分区
+d 删除原有分区
+n 新建分区
+
+   reboot
+ 3
+  e2fsck -f /dev/xvdb1
+  resize2fs /dev/xvdb1
+
+  
+docker network disconnect bridge convoy_u_zone_api
+docker network connect dockerfile_default convoy_u_zone_api
+mkfs.ext3 /dev/xvdb1

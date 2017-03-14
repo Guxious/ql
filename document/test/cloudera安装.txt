@@ -1,0 +1,67 @@
+centos安装cloudera
+
+首先在主机器上免密码登录从机器
+1.主机器上执行
+ssh-copy-id -i ~/.ssh/id_rsa.pub 远程主机ip
+在主机器/etc/hosts文件中添加从机器的ip的名字和ip
+2.所有机器关闭防火墙
+service iptables stop
+chkconfig iptables off
+3.所有机器关闭SELinux
+echo "SELINUX=disabled">/etc/sysconfig/selinux
+4.所有机器重启网络服务，并初始化网络
+/etc/init/network restart
+5.修改transparent_hugepage参数，这一参数默认值可能会导致CDH性能下降
+echo never >/sys/kernel/mm/redhat_transparent_hugepage/defrag
+6.禁止交换（可选），内存页面交换在某些情况下会导致CDH性能下降，建议kerne在2.6.32-303之前的版本中将其关闭
+vi /etc/sysctl.conf
+增加一行 vm.swappiness=0
+sudo sysctl vm.swappiness=0
+7.在需要作为repo库的节点上(主机器)安装必要的软件，包含http服务和repo创建工具
+yum install createrepo
+yum install httpd
+service httpd start
+chkconfig htttpd on
+8主机器安装mysql
+yum install mysql mysql-server mysql-client
+chkconfig mysqld on 
+service mysqld start
+运行mysql_secure_installation,配置root用户访问数据库的密码，禁止远程机器以root用户登录，禁止匿名登录
+/usr/bin/mysql_secure_installation
+y,y,n,y,y
+创建metastore数据库
+mysql -u root -pchengce243 -e 'create database metastore default character set utf8;'
+创建cloudera enterpise hive访问msyql metastore库用户名和密码
+mysql -u root -pchengce243 -e "create user 'hive'@'%' identified by 'chengce243'";
+grant all privileges on metastore.* to 'hive'@'%';
+flush privileges;
+类似地，创建其它组件用的数据库，包括cloudera manager server,activity monitor,reports manager,
+sentry server,cloudrea navigator audit server,cloudera navigator metadata server
+在主机器上执行
+mysql -u root --password='chengce243' -e "create user 'amon'@'%' identified by 'chengce243'";
+mysql -u root --password='chengce243' -e 'create database amon default character set utf8';
+mysql -u root --password='chengce243' -e "grant all privileges on amon.* to 'amon'@'%'";
+
+mysql -u root --password='chengce243' -e "create user 'rman'@'%' identified by 'chengce243'";
+mysql -u root --password='chengce243' -e 'create database rman default character set utf8';
+mysql -u root --password='chengce243' -e "grant all privileges on rman.* to 'rman'@'%'";
+
+mysql -u root --password='chengce243' -e "create user 'sentry'@'%' identified by 'chengce243'";
+mysql -u root --password='chengce243' -e 'create database sentry default character set utf8';
+mysql -u root --password='chengce243' -e "grant all privileges on sentry.* to 'sentry'@'%'";
+
+mysql -u root --password='chengce243' -e "create user 'nav'@'%' identified by 'chengce243'";
+mysql -u root --password='chengce243' -e 'create database nav default character set utf8';
+mysql -u root --password='chengce243' -e "grant all privileges on nav.* to 'nav'@'%'"
+
+mysql -u root --password='chengce243' -e "create user 'navms'@'%' identified by 'chengce243'";
+mysql -u root --password='chengce243' -e 'create database navms default character set utf8';
+mysql -u root --password='chengce243' -e "grant all privileges on navms.* to 'navms'@'%'";
+
+mysql -u root --password='chengce243' -e "create user 'cm'@'%' identified by 'chengce243'";
+mysql -u root --password='chengce243' -e 'create database cm default character set utf8';
+mysql -u root --password='chengce243' -e "grant all privileges on cm.* to 'cm'@'%'";
+
+9.CDH
+
+

@@ -1,0 +1,28 @@
+1.首先从官网上下载最近的稳定版的redis
+然后传到服务器上去，2台机器都安装redis
+
+tar zxvf redis-3.2.5.tar.gz
+cd redis-3.2.5
+cd src
+make 
+报错的话yum install tcl
+make test
+make install 
+
+
+主机器上面编辑redis.conf文件
+requirepass  redis密码
+bind 0.0.0.0
+
+从机器上编辑redis.conf 文件
+slaveof 主机器ip 端口
+masterauth 主机器redis密码
+
+
+启动2台机器的redis
+主机器：nohup src/redis-cli redis.conf -a redis密码
+从机器：nohup src/redis-cli redis.conf
+ 
+主机器上set name test
+从机器上get name
+得到test值说明成功

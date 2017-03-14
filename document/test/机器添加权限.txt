@@ -1,0 +1,8 @@
+1.69上cd /opt/deployworks/LDAP_OPS/authority_control/authconfig
+2.vi machine.list 添加新的机器ip
+3.sudo ssh auth_control.sh
+4.登录新的机器
+5.vi /etc/ssh/sshd_config
+最后添加 DenyGroups bsgp actgp authgp cwgp dbgp fwgp microgp phpgp rcagp lcgp testgp
+保存
+6.service sshd restart

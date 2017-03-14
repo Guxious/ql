@@ -1,0 +1,34 @@
+killall java 
+ps -ef|grep java
+cd /www/mobanker/webapps
+ll
+rm -rf micro_site tkj_api
+hostname charge02
+vi /etc/sysconfig/network
+vi /etc/hosts
+exit
+sudo ssh 10.253.14.150
+cd /opt/tomcat7
+ll
+rm -rf temp* work*
+df -h
+fdisk -l
+fdisk /dev/xvdb
+n
+w
+mkfs.ext3 /dev/xvdb1
+vi /etc/fstab
+Ìí¼Ó/dev/xvdb1  /mobankerdata1 ext3 defaults 0 0
+mount -a
+df -h
+mkdir -p /mobankerdata1/tomcat7/logs
+vi /etc/resolv.conf
+service nscd restart 
+vi /etc/init.dql-autodeploy
+
+
+
+
+ ucdai.yyd_rca_calc_amount   user_type
+ ucdai.yyd_borrow_flow_control   virtual_borrow_count
+

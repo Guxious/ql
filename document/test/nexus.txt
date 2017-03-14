@@ -1,0 +1,8 @@
+nexus地址：http://192.168.1.199:8081/nexus
+用户名/密码： admin/admin123
+
+上传到第三方库3rd party
+GAV Definition:选择GAV Parameters
+groupid   com.alibaba
+artifactid dubbo
+version 2.8.4

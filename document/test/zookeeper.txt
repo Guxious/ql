@@ -1,0 +1,52 @@
+zookeeper php扩展
+参考：http://anykoro.sinaapp.com/2013/04/05/%E4%BD%BF%E7%94%A8apache-zookeeper%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2php%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/
+      http://www.111cn.net/sys/CentOS/60492.htm
+      http://www.cxyclub.cn/n/78953/    
+
+
+yum list installed | grep php
+yum remove php
+yum install php-devel
+
+安装php
+./configure             #--prefix=/usr/local/php5  --enable-mbstring --with-config-file-path=/usr/local/php5
+make && make install
+
+安装zookeeper-3.4.6
+cd /usr/local/src/zookeeper-3.4.6/src/c
+./configure --prefix=/usr/zookeeper 
+make && make install
+
+安装 php-zookeeper-master
+cd php-zookeeper-master/
+/usr/local/php5/bin/phpize
+ ./configure --with-php-config=/usr/local/php5/bin/php-config  --with-libzookeeper-dir=/usr/zookeeper/
+make && make install
+
+yum install php
+cp /etc/php.ini /usr/local/lib/php.ini
+vi /usr/local/lib/php.ini
+找到extension_dir
+添加extension="/usr/local/lib/php/extensions/no-debug-non-zts-20090626/zookeeper.so"
+
+php连接示例
+<?php
+ 
+class ZookeeperDemo extends Zookeeper {
+ 
+  public function watcher( $i, $type, $key ) {
+    echo "Insider Watcher\n";
+ 
+    // Watcher gets consumed so we need to set a new one
+    $this->get( '/test', array($this, 'watcher' ) );
+  }
+ 
+}
+ 
+$zoo = new ZookeeperDemo('127.0.0.1:2181');
+$zoo->get( '/test', array($zoo, 'watcher' ) );
+ 
+while( true ) {
+  echo '.';
+  sleep(2);
+}

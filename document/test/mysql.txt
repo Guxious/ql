@@ -1,0 +1,27 @@
+修改密码：
+mysql> use mysql;
+mysql> UPDATE user SET Password = PASSWORD('123456') WHERE user = 'root';
+mysql> FLUSH PRIVILEGES;
+
+支持远程登录（前提要ping通）
+vi /etc/mysql/my.cnf
+#bind-address = 127.0.0.1（注掉）
+mysql> use mysql;
+mysql> select user,password , host from user where user = 'root';
+mysql>grant allprivileges on *.* to 'root'@'%' identified by '123456';
+mysql>flush privileges;
+service mysql restart
+
+mysql登录不进去修改密码
+# /etc/init.d/mysql stop
+# mysqld_safe --user=mysql --skip-grant-tables --skip-networking &
+# mysql -u root mysql
+mysql> UPDATE user SET Password=PASSWORD('newpassword') where USER='root';
+mysql> FLUSH PRIVILEGES;
+mysql> quit
+
+# /etc/init.d/mysql restart
+# mysql -uroot -p
+Enter password:
+
+mysql>

@@ -1,0 +1,59 @@
+ubuntu安装使用docker
+
+sudo apt-get install docker-io安装docker
+docker version 查看docker版本
+docker pull ubuntu 下载ubuntu镜像
+docker images 查看下载的docker镜像
+docker run -i -t ubuntu 进入ubuntu容器
+ctrl+p+q退出docker容器，容器还在运行，exit是全部退出
+docker ps 查看docker运行进程
+docker ps -a  查看docker运行进程(包括关闭的容器)
+
+#CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+#de51d6db31b9        ubuntu:latest       "/bin/bash"         5 minutes ago       Up 5 minutes                            kickass_hoover
+
+docker start  de51d6db31b9（ID名） 启动容器
+docker attach de51d6db31b9（ID名） 进入容器(exit会关闭容器)
+docker commit de51d6db31b9（ID名）-m "提交的信息"  ubuntu1（名字）:v2(tag名)  保存对容器的修改
+docker inspect  de51d6db31b9（ID名） 查看容器的信息
+docker exec -it de51d6db31b9（ID名） /bin/bash 进入容器(exit不会关闭容器)
+docker rm ID名   删除容器
+docker rmi 镜像名  删除docker镜像
+
+docker启动一个容器实例步骤:
+docker run ubuntu
+docker ps -a
+docker start id名
+docker exec -it id名 /bin/bash (docker attach id名)
+
+
+docker build -f dockfile(dockerfile文件) -t mydocker（docker名称） .  （创建docker镜像）
+docker run -it -p 81:80 -p 8081:8080 -v /docker/mysqlserver_center/mysql_test:/var/lib/mysql  mydocker      端口映射 -v目录映射
+docker tag e277d7bae30f ql.docker.private.registry:5000/centos5-mysqlserver-5.6.17:v1.2 （打tag）
+docker push ql.docker.private.registry:5000/centos5-mysqlserver-5.6.17:v1.2 （提交docker镜像）
+
+docker 私有库的搭建
+docker pull registry
+docker tag 0e0217391d41 huqixin.docker.private.registry:5000/centos5:v1.0
+vi /etc/init/docker.conf 
+exec "$DOCKER" -d $DOCKER_OPTS 后面添加 --insecure-registry huqixin.docker.private.registry:5000
+service docker restart 
+sudo docker run -d -p 5000:5000 -v /home/docker_registry:/tmp/registry registry
+docker push huqixin.docker.private.registry:5000/centos5:v1.0
+
+
+docker mysql数据库重装
+#rpm -ivh MySQL-server-5.6.17-1.rhel5.x86_64.rpm --force 
+#vi /root/.mysql_secret 复制密码
+# mysql_secure_installation 更换密码
+
+4.166 /home/docker_tools
+
+
+chmod 777 /tmp	
+rm -rf /var/lib/mysql/ib_logfile0 
+/docker/mysqlserver_center/mysql_test:/var/lib/mysql --privileged=true
+
+
+docker-compose up报错ERROR: client and server don't have same version (client : 1.19, server: 1.18)解决方法
+export COMPOSE_API_VERSION=1.18

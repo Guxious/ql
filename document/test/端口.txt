@@ -1,0 +1,5 @@
+mysql 8000->3306       navicat root/admin
+redis 8001->6379       opt/redis/src/redis-cli -h 192.168.4.166 -p 8001
+activemq 8002->8161    http://192.168.4.166:8002/admin
+mongodb  8003->27017   mongo 192.168.4.166:8003/admin -u admin -p
+docker run -it -p 8000:3306 -p 8001:6379 -p 8002:61616 -p 8004:27017  ql.docker.private.registry:5000/centos5_four_in_one

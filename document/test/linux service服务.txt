@@ -1,0 +1,7 @@
+将脚本放入/etc/init.d/目录下面
+例如tomcat
+启动时使用service tomcat start
+chkconfig: 2345 10 90设置为开机自启动
+将pid进程写入/var/run/tomcat.pid,防止启动多个进程
+cronolog可以将tomcat日志切割
+启动一个jar包：nohup java -Dfile.encoding=utf-8 -jar $PATH_TO_JAR 2>&1 | /usr/local/sbin/cronolog -S  ${PATH_LOG}/logs/${JAR_NAME}_ln.out ${PATH_LOG}/logs/${JAR_NAME}.%Y-%m-%d-%H.out >> /dev/null  &

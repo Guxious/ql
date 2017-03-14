@@ -1,0 +1,10 @@
+dn:dc=Qianlong,dc=com
+objectclass:top
+objectclass:dcobject
+objectclass:organization
+dc:Qianlong
+o:Qianlong,Inc.
+
+dn:ou=TDC, dc=Qianlong, dc=com
+ou:TDC
+objectclass:organizationalUnit

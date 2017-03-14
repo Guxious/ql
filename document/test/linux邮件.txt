@@ -1,0 +1,2 @@
+linux老是弹出You have new mail in /var/spool/mail/root解决方法
+执行echo "unset MAILCHECK">> /etc/profile

@@ -1,0 +1,11 @@
+python 连接数据库
+>>> import MySQLdb;
+>>> conn=MySQLdb.connect(host="localhost",user="root",passwd="123456",db="test",port=3306,charset="utf8")
+>>> cur=conn.cursor()
+>>> cur.execute("insert into users (username,password,email) values (%s,%s,%s)",("root","123456","root@163.com"))
+1L
+>>> conn.commit()
+插入多条
+>>> cur.executemany("insert into users (username,password,email) values (%s,%s,%s)",(("google","111222","g@gmail.com"),("facebook","222333","f@face.book"),("github","333444","git@hub.com")))
+4L
+>>> conn.commit()
