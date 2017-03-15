@@ -1,0 +1,92 @@
+---------------键命令---------------------------
+编号 	命令 	描述
+1 	DEL key 	此命令删除一个指定键(如果存在)。
+2 	DUMP key 	此命令返回存储在指定键的值的序列化版本。
+3 	EXISTS key 	此命令检查键是否存在。
+4 	EXPIRE key seconds 	设置键在指定时间秒数之后到期/过期。
+5 	EXPIREAT key timestamp 	设置在指定时间戳之后键到期/过期。这里的时间是Unix时间戳格式。
+6 	PEXPIRE key milliseconds 	设置键的到期时间(以毫秒为单位)。
+7 	PEXPIREAT key milliseconds-timestamp 	以Unix时间戳形式来设置键的到期时间(以毫秒为单位)。
+8 	KEYS pattern 	查找与指定模式匹配的所有键。
+9 	MOVE key db 	将键移动到另一个数据库。
+10 	PERSIST key 	删除指定键的过期时间，得永生。
+11 	PTTL key 	获取键的剩余到期时间。
+12 	RANDOMKEY 	从Redis返回一个随机的键。
+13 	RENAME key newkey 	更改键的名称。
+14 	PTTL key 	获取键到期的剩余时间(以毫秒为单位)。
+15 	RENAMENX key newkey 	如果新键不存在，重命名键。
+16 	TYPE key 	返回存储在键中的值的数据类型。
+
+################字符串命令#########################
+编号 	命令 	描述说明
+1 	SET key value 	此命令设置指定键的值。
+2 	GET key 	获取指定键的值。
+3 	GETRANGE key start end 	获取存储在键上的字符串的子字符串。
+4 	GETSET key value 	设置键的字符串值并返回其旧值。
+5 	GETBIT key offset 	返回在键处存储的字符串值中偏移处的位值。
+6 	MGET key1 [key2..] 	获取所有给定键的值
+7 	SETBIT key offset value 	存储在键上的字符串值中设置或清除偏移处的位
+8 	SETEX key seconds value 	使用键和到期时间来设置值
+9 	SETNX key value 	设置键的值，仅当键不存在时
+10 	SETRANGE key offset value 	在指定偏移处开始的键处覆盖字符串的一部分
+11 	STRLEN key 	获取存储在键中的值的长度
+12 	MSET key value [key value …] 	为多个键分别设置它们的值
+13 	MSETNX key value [key value …] 	为多个键分别设置它们的值，仅当键不存在时
+14 	PSETEX key milliseconds value 	设置键的值和到期时间(以毫秒为单位)
+15 	INCR key 	将键的整数值增加1
+16 	INCRBY key increment 	将键的整数值按给定的数值增加
+17 	INCRBYFLOAT key increment 	将键的浮点值按给定的数值增加
+18 	DECR key 	将键的整数值减1
+19 	DECRBY key decrement 	按给定数值减少键的整数值
+20 	APPEND key value 	将指定值附加到键
+
+##################哈希命令#########################
+序号 	命令 	说明
+1 	HDEL key field2 [field2] 	删除一个或多个哈希字段。
+2 	HEXISTS key field 	判断是否存在散列字段。
+3 	HGET key field 	获取存储在指定键的哈希字段的值。
+4 	HGETALL key 	获取存储在指定键的哈希中的所有字段和值
+5 	HINCRBY key field increment 	将哈希字段的整数值按给定数字增加
+6 	HINCRBYFLOAT key field increment 	将哈希字段的浮点值按给定数值增加
+7 	HKEYS key 	获取哈希中的所有字段
+8 	HLEN key 	获取散列中的字段数量
+9 	HMGET key field1 [field2] 	获取所有给定哈希字段的值
+10 	HMSET key field1 value1 [field2 value2 ] 	为多个哈希字段分别设置它们的值
+11 	HSET key field value 	设置散列字段的字符串值
+12 	HSETNX key field value 	仅当字段不存在时，才设置散列字段的值
+13 	HVALS key 	获取哈希中的所有值
+
+################列表命令###########################
+序号 	命令 	说明
+1 	HDEL key field2 [field2] 	删除一个或多个哈希字段。
+2 	HEXISTS key field 	判断是否存在散列字段。
+3 	HGET key field 	获取存储在指定键的哈希字段的值。
+4 	HGETALL key 	获取存储在指定键的哈希中的所有字段和值
+5 	HINCRBY key field increment 	将哈希字段的整数值按给定数字增加
+6 	HINCRBYFLOAT key field increment 	将哈希字段的浮点值按给定数值增加
+7 	HKEYS key 	获取哈希中的所有字段
+8 	HLEN key 	获取散列中的字段数量
+9 	HMGET key field1 [field2] 	获取所有给定哈希字段的值
+10 	HMSET key field1 value1 [field2 value2 ] 	为多个哈希字段分别设置它们的值
+11 	HSET key field value 	设置散列字段的字符串值
+12 	HSETNX key field value 	仅当字段不存在时，才设置散列字段的值
+13 	HVALS key 	获取哈希中的所有值
+
+
+################集合命令####################3
+序号 	命令 	说明
+1 	SADD key member1 [member2] 	将一个或多个成员添加到集合
+2 	SCARD key 	获取集合中的成员数
+3 	SDIFF key1 [key2] 	减去多个集合
+4 	SDIFFSTORE destination key1 [key2] 	减去多个集并将结果集存储在键中
+5 	SINTER key1 [key2] 	相交多个集合
+6 	SINTERSTORE destination key1 [key2] 	交叉多个集合并将结果集存储在键中
+7 	SISMEMBER key member 	判断确定给定值是否是集合的成员
+8 	SMOVE source destination member 	将成员从一个集合移动到另一个集合
+9 	SPOP key 	从集合中删除并返回随机成员
+10 	SRANDMEMBER key [count] 	从集合中获取一个或多个随机成员
+11 	SREM key member1 [member2] 	从集合中删除一个或多个成员
+12 	SUNION key1 [key2] 	添加多个集合
+13 	SUNIONSTORE destination key1 [key2] 	添加多个集并将结果集存储在键中
+14 	SSCAN key cursor [MATCH pattern] [COUNT count] 	递增地迭代集合中的元素
+
