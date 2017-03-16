@@ -73,7 +73,7 @@
 13 	HVALS key 	获取哈希中的所有值
 
 
-################集合命令####################3
+################集合命令####################
 序号 	命令 	说明
 1 	SADD key member1 [member2] 	将一个或多个成员添加到集合
 2 	SCARD key 	获取集合中的成员数
@@ -90,3 +90,77 @@
 13 	SUNIONSTORE destination key1 [key2] 	添加多个集并将结果集存储在键中
 14 	SSCAN key cursor [MATCH pattern] [COUNT count] 	递增地迭代集合中的元素
 
+###################HyperLogLog命令##################
+序号 	命令 	说明
+1 	PFADD key element [element …] 	将指定的元素添加到指定的HyperLogLog 中。
+2 	PFCOUNT key [key …] 	返回给定 HyperLogLog 的基数估算值。
+3 	PFMERGE destkey sourcekey [sourcekey …] 	将多个 HyperLogLog 合并为一个 HyperLogLog
+
+####################Redis发布订阅命令##############################
+序号 	命令 	说明
+1 	PSUBSCRIBE pattern [pattern …] 	订阅一个或多个符合给定模式的频道。
+2 	PUBSUB subcommand [argument [argument …]] 	查看订阅与发布系统状态。
+3 	PUBLISH channel message 	将信息发送到指定的频道。
+4 	PUNSUBSCRIBE [pattern [pattern …]] 	退订所有给定模式的频道。
+5 	SUBSCRIBE channel [channel …] 	订阅给定的一个或多个频道的信息。
+6 	UNSUBSCRIBE [channel [channel …]] 	退订给定的频道。
+
+####################Redis事务命令###################################
+序号 	命令 	说明
+1 	DISCARD 	丢弃在MULTI之后发出的所有命令
+2 	EXEC 	执行MULTI后发出的所有命令
+3 	MULTI 	标记事务块的开始
+4 	UNWATCH 	取消 WATCH 命令对所有 key 的监视。
+5 	WATCH key [key …] 	监视给定的键以确定MULTI / EXEC块的执行
+
+#####################redis脚本命令################################
+序号 	命令 	说明
+1 	EVAL script numkeys key [key …] arg [arg …] 	执行一个Lua脚本。
+2 	EVALSHA sha1 numkeys key [key …] arg [arg …] 	执行一个Lua脚本。
+3 	SCRIPT EXISTS script [script …] 	检查脚本缓存中是否存在脚本。
+4 	SCRIPT FLUSH 	从脚本缓存中删除所有脚本。
+5 	SCRIPT KILL 	杀死当前正在执行的脚本。
+6 	SCRIPT LOAD script 	将指定的Lua脚本加载到脚本缓存中。
+
+#####################redis连接命令################################
+序号 	命令 	说明
+1 	AUTH password 	使用给定的密码验证服务器
+2 	ECHO message 	打印给定的字符串信息
+3 	PING 	检查服务器是否正在运行
+4 	QUIT 	关闭当前连接
+5 	SELECT index 	更改当前连接的所选数据库
+
+#####################redis服务器命令################################
+序号 	命令 	说明
+1 	BGREWRITEAOF 	异步重写仅追加的文件
+2 	BGSAVE 	将数据集异步保存到磁盘
+3 	CLIENT KILL [ip:port] [ID client-id] 	杀死或断开指定的客户端的连接
+4 	CLIENT LIST 	获取到服务器的客户端连接列表
+5 	CLIENT GETNAME 	获取当前连接的名称
+6 	CLIENT PAUSE timeout 	在指定时间内停止处理来自客户端的命令
+7 	CLIENT SETNAME connection-name 	设置当前连接名称
+8 	CLUSTER SLOTS 	获取群集插槽到节点映射的数组
+9 	COMMAND 	获取Redis命令详细信息的数组
+10 	COMMAND COUNT 	获取Redis命令的总数
+11 	COMMAND GETKEYS 	提取键给出一个完整的Redis的命令
+12 	BGSAVE 	将数据集异步保存到磁盘
+13 	COMMAND INFO command-name [command-name …] 	获取特定Redis命令详细信息的数组
+14 	CONFIG GET parameter 	获取配置参数的值
+15 	CONFIG REWRITE 	使用内存中配置来重写配置文件
+16 	CONFIG SET parameter value 	将配置参数设置为给定值
+17 	CONFIG RESETSTAT 	重置由INFO返回的统计信息
+18 	DBSIZE 	返回所选数据库中的键数量
+19 	DEBUG OBJECT key 	获取有关键的调试信息
+20 	DEBUG SEGFAULT 	使服务器崩溃
+21 	FLUSHALL 	从所有数据库中删除所有键
+22 	FLUSHDB 	删除当前数据库中的所有键
+23 	INFO [section] 	获取有关服务器的信息和统计信息
+24 	LASTSAVE 	获取上次成功保存到磁盘的UNIX时间戳
+25 	MONITOR 	监听服务器实时接收的所有请求
+26 	ROLE 	返回实例在复制上下文中的角色
+27 	SAVE 	将数据集同步保存到磁盘
+28 	SHUTDOWN [NOSAVE] [SAVE] 	将数据集同步保存到磁盘，然后关闭服务器
+29 	SLAVEOF host port 	使服务器成为另一个实例的从属，或将其提升作为主服务器
+30 	SLOWLOG subcommand [argument] 	管理Redis慢查询日志
+31 	SYNC 	用于复制的命令
+32 	TIME 	返回当前服务器的时间
