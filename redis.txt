@@ -1,3 +1,6 @@
+
+http://redis.readthedocs.io/en/2.4/index.html
+
 ---------------键命令---------------------------
 编号 	命令 	描述
 1 	DEL key 	此命令删除一个指定键(如果存在)。
@@ -164,3 +167,30 @@
 30 	SLOWLOG subcommand [argument] 	管理Redis慢查询日志
 31 	SYNC 	用于复制的命令
 32 	TIME 	返回当前服务器的时间
+
+##################Redis基准###############################
+$ redis-benchmark [option] [option value]
+序号 	选项 	说明 	                     默认值
+1 	-h 	指定服务器主机名 	                127.0.0.1
+2 	-p 	指定服务器端口                  	  6379
+3 	-s 	指定服务器套接字 	
+4 	-c 	指定并行连接的数量                 	   50
+5 	-n 	指定请求的总数 	                      10000
+6 	-d 	指定SET/GET值的数据大小(以字节为单位) 	2
+7 	-k 	1=keep alive, 0=reconnect 	1
+8 	-r 	使用SET/GET/INCR的随机键，SADD的随机值 	
+9 	-p 	管道<numreq>请求 	1
+10 	-h 	指定服务器主机名 	
+11 	-q 	强制让Redis安装。 只显示query/sec值 	
+12 	--csv 	以CSV格式输出 	
+13 	-l 	生成循环，永久运行测试 	
+14 	-t 	只运行逗号分隔的测试列表 	
+15 	-I 	空闲模式。 只打开N个空闲连接并等待
+
+##################Redis客户端命令#####################
+编号 	命令 	描述
+1 	CLIENT LIST 	返回连接到Redis服务器的客户端列表
+2 	CLIENT SETNAME 	为当前连接分配/设置新的名称
+3 	CLIENT GETNAME 	返回由CLIENT SETNAME设置的当前连接的名称
+4 	CLIENT PAUSE 	这是一个连接控制命令，能够将所有Redis客户端按指定的时间量(以毫秒为单位)挂起
+5 	CLIENT KILL 	此命令关闭指定的客户端连接。
