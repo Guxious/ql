@@ -1,0 +1,190 @@
+新建数据表
+CREATE TABLE  test1	(
+   id INT NOT NULL AUTO_INCREMENT,
+   name VARCHAR(100) NOT NULL,
+   age  VARCHAR(40) NOT NULL,
+   PRIMARY KEY ( id )
+);
+
++-----------------------------------------------------------------------------------------+
+
+删除数据表
+drop table test1
+
++------------------------------------------------------------------------------------------+
+
+查看数据表结构
+mysql> show columns from test1;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(100) | NO   |     | NULL    |                |
+| age   | varchar(40)  | NO   |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
++------------------------------------------------------------------------------------------+
+
+查看数据表详细索引信息，包括主键
+mysql> show index from test1;
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+
+| test1 |          0 | PRIMARY  |            1 | id          | A         |           2 |     NULL | NULL   |      | BTREE      |         |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+
+1 row in set (0.00 sec)
+
++------------------------------------------------------------------------------------------+
+
+插入语句
+mysql> INSERT INTO test1
+    -> (name,age)
+    -> VALUES 
+    -> ("jinx","18")
+    -> ;
+Query OK, 1 row affected (0.00 sec)
+
++------------------------------------------------------------------------------------------+
+
+更新语句
+mysql> UPDATE test1 
+    -> set name='jax',age='25'
+    -> where id='3'                            #限制条件
+    -> ;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
++------------------------------------------------------------------------------------------+
+
+查询语句
+mysql> SELECT * FROM test1
+    -> ;
++----+--------+-----+
+| id | name   | age |
++----+--------+-----+
+|  1 | guxing | 22  |
+|  2 | jinx   | 18  |
++----+--------+-----+
+2 rows in set (0.00 sec)
+
+
++------------------------------------------------------------------------------------------+
+
+删除语句
+mysql> DELETE FROM test1
+    -> where id="4";
+Query OK, 1 row affected (0.00 sec)
+
+
++------------------------------------------------------------------------------------------+
+
+MySQL的WHERE子句的字符串比较是不区分大小写的。 你可以使用 BINARY 关键字来设定WHERE子句的字符串比较是区分大小写的。
+如下实例
+mysql> SELECT * FROM test1 where binary name='gUxing';
+Empty set (0.00 sec)
+
+
+mysql> SELECT * FROM test1 where  name='gUxing';
++----+--------+-----+
+| id | name   | age |
++----+--------+-----+
+|  5 | guxing | 22  |
++----+--------+-----+
+1 row in set (0.00 sec)
+
++------------------------------------------------------------------------------------------+
+
+
+LIKE 常常与%搭配使用
+mysql> SELECT * FROM test1 where name like 'j%';
++----+------+-----+
+| id | name | age |
++----+------+-----+
+|  3 | jax  | 25  |
+|  6 | jim  | 23  |
++----+------+-----+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM test1 where name like '%ing';
++----+--------+-----+
+| id | name   | age |
++----+--------+-----+
+|  5 | guxing | 22  |
++----+--------+-----+
+1 row in set (0.00 sec)
+
++------------------------------------------------------------------------------------------+
+MySQL UNION 操作符
+本教程为大家介绍 MySQL UNION 操作符的语法和实例。
+描述
+MySQL UNION 操作符用于连接两个以上的 SELECT 语句的结果组合到一个结果集合中。多个 SELECT 语句会删除重复的数据。
+语法
+MySQL UNION 操作符语法格式：
+SELECT expression1, expression2, ... expression_n
+FROM tables
+[WHERE conditions]
+UNION [ALL | DISTINCT]
+SELECT expression1, expression2, ... expression_n
+FROM tables
+[WHERE conditions];
+参数
+expression1, expression2, ... expression_n: 要检索的列。
+tables: 要检索的数据表。
+WHERE conditions: 可选， 检索条件。
+DISTINCT: 可选，删除结果集中重复的数据。默认情况下 UNION 操作符已经删除了重复数据，所以 DISTINCT 修饰符对结果没啥影响。
+ALL: 可选，返回所有结果集，包含重复数据。
+
++------------------------------------------------------------------------------------------+
+
+排序ORDER BY 
+
+mysql> SELECT *  FROM test1
+    -> ;
++----+--------+-----+
+| id | name   | age |
++----+--------+-----+
+|  3 | jax    | 25  |
+|  5 | guxing | 22  |
+|  6 | jim    | 23  |
++----+--------+-----+
+3 rows in set (0.00 sec)
+
+mysql> SELECT *  FROM test1 ORDER BY age;
++----+--------+-----+
+| id | name   | age |
++----+--------+-----+
+|  5 | guxing | 22  |
+|  6 | jim    | 23  |
+|  3 | jax    | 25  |
++----+--------+-----+
+3 rows in set (0.02 sec)
+
+
++------------------------------------------------------------------------------------------+
+MySQL 同样也支持其他正则表达式的匹配， MySQL中使用 REGEXP 操作符来进行正则表达式匹配。
+如果您了解PHP或Perl，那么操作起来就非常简单，因为MySQL的正则表达式匹配与这些脚本的类似。
+下表中的正则模式可应用于 REGEXP 操作符中。
+模式                                              	描述
+^	               匹配输入字符串的开始位置。如果设置了 RegExp 对象的 Multiline 属性，^ 也匹配 '\n' 或 '\r' 之后的位置。
+$	               匹配输入字符串的结束位置。如果设置了RegExp 对象的 Multiline 属性，$ 也匹配 '\n' 或 '\r' 之前的位置。
+.	               匹配除 "\n" 之外的任何单个字符。要匹配包括 '\n' 在内的任何字符，请使用象 '[.\n]' 的模式。
+[...]	           字符集合。匹配所包含的任意一个字符。例如， '[abc]' 可以匹配 "plain" 中的 'a'。
+[^...]	           负值字符集合。匹配未包含的任意字符。例如， '[^abc]' 可以匹配 "plain" 中的'p'。
+p1|p2|p3         	匹配 p1 或 p2 或 p3。例如，'z|food' 能匹配 "z" 或 "food"。'(z|f)ood' 则匹配 "zood" 或 "food"。
+*	               匹配前面的子表达式零次或多次。例如，zo* 能匹配 "z" 以及 "zoo"。* 等价于{0,}。
++	               匹配前面的子表达式一次或多次。例如，'zo+' 能匹配 "zo" 以及 "zoo"，但不能匹配 "z"。+ 等价于 {1,}。
+{n}	               n 是一个非负整数。匹配确定的 n 次。例如，'o{2}' 不能匹配 "Bob" 中的 'o'，但是能匹配 "food" 中的两个 o。
+{n,m}           	m 和 n 均为非负整数，其中n <= m。最少匹配 n 次且最多匹配 m 次。
+实例
+了解以上的正则需求后，我们就可以更加自己的需求来编写带有正则表达式的SQL语句。以下我们将列出几个小实例(表名：person_tbl )来加深我们的理解：
+查找name字段中以'st'为开头的所有数据：
+mysql> SELECT name FROM person_tbl WHERE name REGEXP '^st';
+查找name字段中以'ok'为结尾的所有数据：
+mysql> SELECT name FROM person_tbl WHERE name REGEXP 'ok$';
+查找name字段中包含'mar'字符串的所有数据：
+mysql> SELECT name FROM person_tbl WHERE name REGEXP 'mar';
+查找name字段中以元音字符开头或以'ok'字符串结尾的所有数据：
+mysql> SELECT name FROM person_tbl WHERE name REGEXP '^[aeiou]|ok$';
+
++------------------------------------------------------------------------------------------+
