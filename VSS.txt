@@ -1,0 +1,41 @@
+下面介绍一下如何在CISCO交换机上配置VSS，具体配置如下：
+
+//在CISCO1 上配置vss域，两台设备都要在同一个域中   
+Cisco-1(confgi)#switch virtual domain 100  //在Cisco-1 上配置Virtual Switch Domain   
+Cisco-1(config-vs-domain)#switch 1  //配置Cisco-1 的Virtual Switch 号码为1   
+  
+//配置VSL  Port Channel和Ports   
+Cisco-1(config)#interface port-channel 10   //配置Cisco 1上的Port Channel 为10   
+Cisco-1(config-if)# switch virtual link 1   //将Cisco 1 port Channnel 10配置为vsl链路     
+Cisco-1 (config-if)#no shutdown  //激活port Channel   
+  
+//在Cisco-1上配置物理口加入vsl 关联的Port Channel中   
+Cisco-1(config)#interface range tenGigabitEthernet 1/1-2    //进入Cisco 1 的接口range t1/1-2   
+Cisco-1(config-if) #channel-group 10 mode on    //将这些接口加入到channel group 10   
+Cisco-1(config-if)#no shutdown     //激活以上接口   
+  
+//在Cisco 2 上做的配置   
+Cisco-2(confgi)#switch virtual domain 100  //在Cisco-2 上配置Virtual Switch Domain   
+Cisco-2(config-vs-domain)#switch 2  //配置Cisco-2 的Virtual Switch 号码为2   
+  
+//配置VSL  Port Channel和Ports   
+Cisco-2(config)#interface port-channel 10  //配置Cisco2上的Port Channel 为10   
+Cisco-2(config-if)# switch virtual link 2  //将Cisco 2 port Channnel 10配置为vsl链路  
+Cisco-2(config-if)#no shutdown  //激活port Channel   
+  
+//在Cisco-2 上配置物理口加入vsl 关联的Port Channel中   
+Cisco-2(config)#interface range tenGigabitEthernet 1/2-3  //进入Cisco 2 的接口range t1/2-3   
+Cisco-2(config-if) #channel-group 10 mode on    //将这些接口加入到channel group 10   
+Cisco-2(config-if)#no shutdown    //激活以上接口   
+  
+//以上信息配置完后确认一下两台交换机上的的PFC模式匹配,如果不匹配的话,VSS将会进入RPR模式,可输入show platform hardware pfc mode 显示目前的PDC模式.如果只有一个交换机处于PFC3CXL模式,那么可使用如下命令platform hardware vsl pfc mode pfc3c   
+  
+Cisco-1# show platform hardware pfc mode     //确认两台交换机上的PFC 操作模式匹配, 确认VSS处于SSO 模式   
+Cisco-2#show platform hardware pfc mode      //确认两台交换机上的PFC 操作模式匹配, 确认VSS处于SSO 模式   
+Cisco-1# platform hardware vsl pfc mode pfc3c      //设置交换机1的PFC操作模式为PFC3C,这个命令是可选的   
+Cisco-2# platform hardware vsl pfc mode pfc3c   
+  
+//最后将两个设备切换为virtual模式也就是组建VSS。记住保存配置重启后VSS才可以生效。   
+Cisco-1# switch convert mode virtual    
+Cisco-2# switch convert mode virtual   
+注：交换机上输入switch accept mode virtual 命令后, 在主和备交换机上的更新配置会自动保存到其startup 配置文件中.
